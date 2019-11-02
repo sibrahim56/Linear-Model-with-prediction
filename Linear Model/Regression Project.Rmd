@@ -139,6 +139,6 @@ str(a)
 
 $H_0$ We fail to reject the null hypothesis showing that there is no difference between arm strength vs. arm+grip strength
 
-$H_0$ We reject the null hypothesis showing that there is a difference between arm strength vs. arm+grip strength
+$H_A$ We reject the null hypothesis showing that there is a difference between arm strength vs. arm+grip strength
 
 We reject the null hypothesis based on the evidence we have it with a Pvalue of 4.994e-06 which is less than .05 and the model that predicts simulations that uses arm+grip is a better model for the simulations that uses arm only.
