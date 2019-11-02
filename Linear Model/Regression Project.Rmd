@@ -1,0 +1,144 @@
+---
+title: "Regression Project"
+author: "Sam Ibrahim"
+date: "November 2, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+require(tidyverse)
+require(tigerstats)
+require(rgl)
+require(knitr)
+if(!require("rglwidget")) {install.packages("rglwidget");require("rglwidget")}
+data <- read.csv(file = "http://onlinestatbook.com/case_studies_rvls/physical_strength/data.txt",sep = "",header = TRUE)
+```
+
+```{r}
+plot(SIMS~ARM,data=data)
+```
+
+```{r}
+basicNN <- ggplot(data,aes(y=SIMS,x=ARM))
+```
+
+```{r}
+basicNN + geom_point()
+```
+
+```{r}
+basicNN + geom_point(aes(col=ARM)) 
+```
+
+```{r}
+cor(SIMS~ARM,data=data)
+```
+
+```{r}
+model.1 <- lm(SIMS~ARM,data=data)
+summary.lm(model.1)
+```
+
+```{r}
+basicNN + geom_point(aes(col=ARM)) + geom_smooth(method=lm)
+```
+
+```{r}
+x=data.frame(GRIP=94, ARM=88)
+predict.lm(model.1,x,interval = "prediction")
+```
+
+The 95% predictions intervals are between .706-3.13
+
+Now for the SIMs the function of GRIP
+
+```{r}
+plot(SIMS~GRIP,data=data)
+```
+
+```{r}
+basicNN <- ggplot(data,aes(y=SIMS,x=GRIP))
+```
+
+```{r}
+basicNN + geom_point()
+```
+
+```{r}
+basicNN + geom_point(aes(col=GRIP)) 
+```
+
+```{r}
+cor(SIMS~GRIP,data=data)
+```
+
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+```
+
+```{r}
+basicNN + geom_point(aes(col=GRIP)) + geom_smooth(method=lm)
+```
+
+```{r}
+x=data.frame(GRIP=94, ARM=88)
+predict.lm(model.2,x,interval = "prediction")
+```
+
+The 95% predictions intervals are between -.536-2.035
+
+
+Now for the SIMs the function of ARM+GRIP
+
+
+```{r}
+plot(SIMS~ARM+GRIP,data=data,xlab="ARM+GRIP")
+```
+
+```{r}
+basicNN <- ggplot(data,aes(y=SIMS,x=ARM+GRIP))
+```
+
+```{r}
+basicNN + geom_point()
+```
+
+```{r}
+basicNN + geom_point(aes(col=ARM+GRIP)) 
+```
+
+```{r}
+cor(SIMS~ARM+GRIP,data=data)
+```
+
+```{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+summary.lm(model.3)
+```
+
+```{r}
+basicNN + geom_point(aes(col=ARM+GRIP)) + geom_smooth(method=lm)
+```
+
+```{r}
+x=data.frame(GRIP=94, ARM=88)
+predict.lm(model.3,x,interval = "prediction")
+```
+
+
+```{r}
+a=anova(model.1,model.3)
+print(a)
+str(a)
+```
+
+$H_0$ We fail to reject the null hypothesis showing that there is no difference between arm strength vs. arm+grip strength
+
+$H_0$ We reject the null hypothesis showing that there is a difference between arm strength vs. arm+grip strength
+
+We reject the null hypothesis based on the evidence we have it with a Pvalue of 4.994e-06 which is less than .05 and the model that predicts simulations that uses arm+grip is a better model for the simulations that uses arm only.
